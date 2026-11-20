@@ -32,5 +32,7 @@ export class ContactForm {
 
     const result = await response.json();
     console.log(result);
+
+    this.form.reset();
   }
 }
