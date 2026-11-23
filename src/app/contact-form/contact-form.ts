@@ -18,21 +18,24 @@ export class ContactForm {
   });
 
   async submit() {
-    console.log(this.form.value);
-
     const name = this.form.value.name;
     const email = this.form.value.email;
     const message = this.form.value.message;
 
-    const response = await fetch('https://daigger.de/portfolio/contact.php', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ name, email, message }),
-    });
+    try {
+      const response = await fetch('https://daigger.de/portfolio/contact.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, email, message }),
+      });
 
-    const result = await response.json();
-    console.log(result);
+      if (!response.ok) {
+        throw new Error(`Server-Fehler: ${response.status}`);
+      }
 
-    this.form.reset();
+      this.form.reset();
+    } catch (error) {
+      console.error('Senden fehlgeschlagen:', error);
+    }
   }
 }
